@@ -21,5 +21,5 @@ Merge back small files into one big using k-way merge alg
 ### Please have a look in to the appsettings.json - there you can manipulate the generation anad sorting settings. Hopefuly they are self explaining
 
 ### ```altion --help``` will print option possibilities
-### altion -g will generate test file with configured lines of data under configured location (reffer to appsettings.json)
-### altion -s will will sort the data
+### ```altion -g``` will generate test file with configured lines of data under configured location (reffer to appsettings.json)
+### ```altion -s``` will will sort the data

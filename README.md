@@ -22,4 +22,4 @@ Merge back small files into one big using k-way merge alg
 
 ### ```altion --help``` will print option possibilities
 ### ```altion -g``` will generate test file with configured lines of data under configured location (reffer to appsettings.json)
-### ```altion -s``` will will sort the data
+### ```altion -s``` will sort the data

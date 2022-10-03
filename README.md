@@ -12,7 +12,8 @@ Apply sort on that smaller files
 Merge back small files into one big using k-way merge alg
 
 ## 3rd party libs and ideas references
-* ShellProgressBar, MIT license, https://github.com/Mpdreamz/shellprogressbar to parse command line arguments
+* ShellProgressBar, MIT license, https://github.com/Mpdreamz/shellprogressbar to show the progress in the Console
+* CommandLineParser, MIT License, https://github.com/commandlineparser/commandline to parse the command line arguments
 * Bogus, MIT License, https://github.com/bchavez/Bogus to generate test data
 * K-WAY merge inspired by Josef Ottosson article https://josef.codes/sorting-really-large-files-with-c-sharp/
 

@@ -3,7 +3,7 @@
 
 ## Flow
 ### Step 1
-Split one big file int x (configured size) smaller files
+Split one big file into x (configured size) smaller files
 ### Step 2
 Apply sort on that smaller files
 ### Step 3

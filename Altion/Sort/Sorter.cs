@@ -214,8 +214,20 @@ internal class Sorter : ISorter
                 return;
             }
             
-            var runs = sortedFiles.Chunk(runSize);
+            var runs = sortedFiles.Chunk(runSize).ToList();
             var chunkCounter = 0;
+            
+            using var childProgressBar = bar.Spawn(
+                runs.Count, 
+                "Partial merge ...",
+                new ProgressBarOptions
+                {
+                    ForegroundColor = ConsoleColor.Green,
+                    BackgroundColor = ConsoleColor.DarkGreen,
+                    ProgressCharacter = '─',
+                    CollapseWhenFinished = true
+                });
+            
             foreach (var files in runs)
             {
                 var outputFilename = $"{++chunkCounter}{SortedFileExtension}{TempFileExtension}";
@@ -223,6 +235,8 @@ internal class Sorter : ISorter
                 {
                     File.Move(GetFullPath(files.First()),
                         GetFullPath(outputFilename.Replace(TempFileExtension, string.Empty)));
+                    
+                    childProgressBar.Tick();
                     continue;
                 }
 
@@ -231,6 +245,8 @@ internal class Sorter : ISorter
                 
                 File.Move(GetFullPath(outputFilename),
                     GetFullPath(outputFilename.Replace(TempFileExtension, string.Empty)), true);
+                
+                childProgressBar.Tick();
             }
 
             sortedFiles = Directory.GetFiles(_config.OperativeDictionary, $"*{SortedFileExtension}")
@@ -261,6 +277,18 @@ internal class Sorter : ISorter
         await using var outputWriter = new StreamWriter(outputStream, bufferSize: _config.WriterBufferSize);
 
         var comparer = new FileDataRowComparer();
+        
+        using var childProgressBar = progressBar.Spawn(
+            streamReaders.Length, 
+            "Partial merge ...",
+            new ProgressBarOptions
+            {
+                ForegroundColor = ConsoleColor.Green,
+                BackgroundColor = ConsoleColor.DarkGreen,
+                ProgressCharacter = '─',
+                CollapseWhenFinished = true
+            });
+        
         while (!done)
         {
             rows.Sort((row1, row2) => comparer.Compare(row1.Value, row2.Value));
@@ -280,6 +308,7 @@ internal class Sorter : ISorter
 
             var value = await streamReaders[streamReaderIndex].ReadLineAsync();
             rows[0] = new Row { Value = FileDataRow.FromString(value!), StreamReader = streamReaderIndex };
+            childProgressBar.Tick();
         }
 
         CleanupRun(streamReaders, filesToMerge, progressBar);

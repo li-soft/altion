@@ -2,9 +2,6 @@
 
 namespace Altion;
 
-/// <summary>
-/// To be moved to real config
-/// </summary>
 public interface IAltionConfig
 {
     public char NewLineSign => '\n';

@@ -1,4 +1,6 @@
-﻿## Problem to solve
+﻿# Altion = Altium + Solution
+ 
+ ## Problem to solve
 ### Manipulating (ordering in this case) a file that size extends the machine RAM memory and manipulating of that big file will cause OOM exception
 
 ## Flow

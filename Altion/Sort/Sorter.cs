@@ -63,7 +63,7 @@ internal class Sorter : ISorter
             result /= size;
         }
 
-        totalFilesToMerge += 10;
+        totalFilesToMerge += 100;
         return new ProgressBar(totalFilesToMerge, "Merging files ...");
     }
 

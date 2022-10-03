@@ -1,6 +1,4 @@
-﻿# Altion = Altium + Solution
- 
- ## Problem to solve
+﻿## Problem to solve
 ### Manipulating (ordering in this case) a file that size extends the machine RAM memory and manipulating of that big file will cause OOM exception
 
 ## Flow
@@ -12,7 +10,8 @@ Apply sort on that smaller files
 Merge back small files into one big using k-way merge alg
 
 ## 3rd party libs and ideas references
-* ShellProgressBar, MIT license, https://github.com/Mpdreamz/shellprogressbar to parse command line arguments
+* ShellProgressBar, MIT license, https://github.com/Mpdreamz/shellprogressbar to show the progress in the Console
+* CommandLineParser, MIT License, https://github.com/commandlineparser/commandline to parse the command line arguments
 * Bogus, MIT License, https://github.com/bchavez/Bogus to generate test data
 * K-WAY merge inspired by Josef Ottosson article https://josef.codes/sorting-really-large-files-with-c-sharp/
 
@@ -20,6 +19,6 @@ Merge back small files into one big using k-way merge alg
 
 ### Please have a look in to the appsettings.json - there you can manipulate the generation anad sorting settings. Hopefuly they are self explaining
 
-### ```altion --help``` will print option possibilities
-### ```altion -g``` will generate test file with configured lines of data under configured location (reffer to appsettings.json)
-### ```altion -s``` will sort the data
+### altion --help will print option possibilities
+### altion -g will generate test file with configured lines of data under configured location (reffer to appsettings.json)
+### altion -s will will sort the data

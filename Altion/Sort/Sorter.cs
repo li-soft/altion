@@ -62,9 +62,8 @@ internal class Sorter : ISorter
             totalFilesToMerge += result;
             result /= size;
         }
-
-        totalFilesToMerge += 100;
-        return new ProgressBar(totalFilesToMerge, "Merging files ...");
+        
+        return new ProgressBar(++totalFilesToMerge, "Merging files ...");
     }
 
     private FileStream GetDestinationStream()
@@ -283,7 +282,7 @@ internal class Sorter : ISorter
             rows[0] = new Row { Value = FileDataRow.FromString(value!), StreamReader = streamReaderIndex };
         }
 
-        CleanupRun(streamReaders, filesToMerge);
+        CleanupRun(streamReaders, filesToMerge, progressBar);
     }
 
     private async Task<(StreamReader[] StreamReaders, List<Row> rows)> InitializeStreamReaders(IReadOnlyList<string> sortedFiles)
@@ -307,14 +306,29 @@ internal class Sorter : ISorter
         return (streamReaders, rows);
     }
 
-    private void CleanupRun(IReadOnlyList<StreamReader> streamReaders, IReadOnlyList<string> filesToMerge)
+    private void CleanupRun(
+        IReadOnlyList<StreamReader> streamReaders, 
+        IReadOnlyList<string> filesToMerge,
+        ProgressBarBase progressBarBase)
     {
+        using var childProgressBar = progressBarBase.Spawn(
+            streamReaders.Count,
+            "Cleaning after merge phase ...",
+            new ProgressBarOptions
+            {
+                ForegroundColor = ConsoleColor.Green,
+                BackgroundColor = ConsoleColor.DarkGreen,
+                ProgressCharacter = '─',
+                CollapseWhenFinished = true
+            });
+        
         for (var i = 0; i < streamReaders.Count; i++)
         {
             streamReaders[i].Dispose();
             var temporaryFilename = $"{filesToMerge[i]}.removal";
             File.Move(GetFullPath(filesToMerge[i]), GetFullPath(temporaryFilename));
             File.Delete(GetFullPath(temporaryFilename));
+            childProgressBar.Tick();
         }
     }
 
